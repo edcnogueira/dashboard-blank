@@ -50,6 +50,20 @@
   }
 }
 
+@layer components {
+  .tp-h1 {
+    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl
+  }
+  .tp-h3 {
+    @apply scroll-m-20 text-2xl font-semibold tracking-tight
+  }
+  .tp-p {
+    @apply leading-7 [&:not(:first-child)]:mt-6
+  }
+  .tp-small {
+    @apply text-sm font-medium leading-none
+  }
+}
  
 @layer base {
   * {
