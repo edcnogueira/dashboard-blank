@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import '@/styles/globals.css'
+import Providers from '@/utils/providers'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 
@@ -15,10 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn('w-full min-h-screen bg-background', GeistSans.className)}
-      >
-        {children}
+      <body className={cn('w-full min-h-screen', GeistSans.className)}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )
