@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 'use client'
 
 import * as React from 'react'
@@ -11,13 +10,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '../ui/form'
+
+import { useToast } from "@/components/ui/use-toast"
+import { signIn } from 'next-auth/react'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -29,17 +31,29 @@ type TFormSchema = z.infer<typeof formSchema>
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const {toast} = useToast()
+
   const form = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
   })
 
   async function onSubmit(data: TFormSchema) {
     setIsLoading(true)
-    console.log(data)
-
-    setTimeout(() => {
+    try{
+      await signIn('email', {email: data.email, redirect: false})
+      toast({
+        title: "Magic Link Sent",
+        description: "Check your email for the magic link to login",
+      })
+    }catch{
+      toast({
+        variant: "destructive",
+        title: "Magic Link Error",
+        description: "There was a problem with your request.",
+      })
+    }finally{
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
